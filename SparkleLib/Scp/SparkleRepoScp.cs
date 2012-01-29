@@ -35,6 +35,14 @@ namespace SparkleLib {
             }
         }
 
+        public override List<string> ExcludePaths {
+            get {
+                List<string> rules = new List<string> ();
+                //rules.Add (Path.DirectorySeparatorChar + ".git"); 
+
+                return rules;
+            }
+        }
 
         public override string CurrentRevision {
             get {
