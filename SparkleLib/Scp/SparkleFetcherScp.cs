@@ -25,6 +25,9 @@ namespace SparkleLib {
     // Sets up a fetcher that can get remote folders
     public class SparkleFetcherScp : SparkleFetcherBase {
 
+        private SparkleScp scp;
+
+
         public SparkleFetcherScp (string server, string remote_folder, string target_folder) :
             base (server, remote_folder, target_folder)
 	{
@@ -56,7 +59,7 @@ namespace SparkleLib {
             base.target_folder = target_folder;
             base.remote_url    = uri.ToString ();
 	    Uri uri2 = new Uri (SparkleConfig.DefaultConfig.GetUrlForFolder (base.remote_url));
-	    SparkleScp scp = new SparkleScp("","")
+	    this.scp = new SparkleScp("","")
 	    { port = uri2.Port };
 
 	}
