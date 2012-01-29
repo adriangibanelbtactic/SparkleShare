@@ -568,14 +568,22 @@ namespace SparkleShare {
         // Adds a repository to the list of repositories
         private void AddRepository (string folder_path)
         {
-            if (folder_path.Equals (SparkleConfig.DefaultConfig.TmpPath))
-                return;
+            SparkleRepoBase repo = null;
+            string folder_name   = Path.GetFileName (folder_path);
+            string backend       = SparkleConfig.DefaultConfig.GetBackendForFolder (folder_name);
 
-            string folder_name = Path.GetFileName (folder_path);
-            string backend = SparkleConfig.DefaultConfig.GetBackendForFolder (folder_name);
+            try {
+                repo = (SparkleRepoBase) Activator.CreateInstance (
+                    Type.GetType ("SparkleLib.SparkleRepo" + backend + ", SparkleLib"),
+                        folder_path
+                );
 
-            if (backend == null)
+            } catch {
+                SparkleHelpers.DebugInfo ("Controller",
+                    "Failed to load \"" + backend + "\" backend for \"" + folder_name + "\"");
+
                 return;
+<<<<<<< HEAD
             SparkleRepoBase repo;
 
 	    if (backend == "Scp") {
@@ -583,6 +591,10 @@ namespace SparkleShare {
 	    } else {
 		repo = new SparkleRepoGit (folder_path, SparkleBackend.DefaultBackend);
 	    }
+=======
+            }
+
+>>>>>>> 5d5712bcd08ecffb8ba1886167944fe4556c6098
 
             repo.NewChangeSet += delegate (SparkleChangeSet change_set) {
 
@@ -626,6 +638,7 @@ namespace SparkleShare {
             repo.ChangesDetected += delegate {
                 UpdateState ();
             };
+
 
             Repositories.Add (repo);
             repo.Initialize ();
@@ -820,7 +833,7 @@ namespace SparkleShare {
             string key_file_path = Path.Combine (keys_path, key_file_name);
 
             if (File.Exists (key_file_path)) {
-                SparkleHelpers.DebugInfo ("Config", "Key already exists ('" + key_file_name + "'), " +
+                SparkleHelpers.DebugInfo ("Auth", "Key already exists ('" + key_file_name + "'), " +
                                           "leaving it untouched");
                 return;
             }
@@ -846,8 +859,8 @@ namespace SparkleShare {
                 process.Start ();
                 process.WaitForExit ();
 
-                SparkleHelpers.DebugInfo ("Config", "Created private key '" + key_file_name + "'");
-                SparkleHelpers.DebugInfo ("Config", "Created public key  '" + key_file_name + ".pub'");
+                SparkleHelpers.DebugInfo ("Auth", "Created private key '" + key_file_name + "'");
+                SparkleHelpers.DebugInfo ("Auth", "Created public key  '" + key_file_name + ".pub'");
 
                 // Add some restrictions to what the key can
                 // do when uploaded to the server
@@ -880,7 +893,7 @@ namespace SparkleShare {
 
             if (!Directory.Exists (avatar_path)) {
                 Directory.CreateDirectory (avatar_path);
-                SparkleHelpers.DebugInfo ("Config", "Created '" + avatar_path + "'");
+                SparkleHelpers.DebugInfo ("Avatar", "Created '" + avatar_path + "'");
             }
 
             foreach (string raw_email in emails) {
@@ -926,11 +939,11 @@ namespace SparkleShare {
                         lock (this.avatar_lock)
                             File.WriteAllBytes (avatar_file_path, buffer);
 
-                        SparkleHelpers.DebugInfo ("Controller", "Fetched gravatar for " + email);
+                        SparkleHelpers.DebugInfo ("Avatar", "Fetched gravatar for " + email);
                     }
 
                   } catch (WebException e) {
-                        SparkleHelpers.DebugInfo ("Controller", "Failed fetching gravatar for " + email);
+                        SparkleHelpers.DebugInfo ("Avatar", "Failed fetching gravatar for " + email);
 
                         // Stop downloading further avatars if we have no internet access
                         if (e.Status == WebExceptionStatus.Timeout){
@@ -974,7 +987,7 @@ namespace SparkleShare {
 
         public void FetchFolder (string server, string remote_folder)
         {
-            server = server.Trim ();
+            server        = server.Trim ();
             remote_folder = remote_folder.Trim ();
 
             string tmp_path = SparkleConfig.DefaultConfig.TmpPath;
@@ -983,20 +996,40 @@ namespace SparkleShare {
                 File.SetAttributes (tmp_path, File.GetAttributes (tmp_path) | FileAttributes.Hidden);
             }
 
+
             // Strip the '.git' from the name
             string canonical_name = Path.GetFileNameWithoutExtension (remote_folder);
             string tmp_folder     = Path.Combine (tmp_path, canonical_name);
+            string backend        = Path.GetExtension (remote_folder);
 
-            string backend = null;
+            if (!string.IsNullOrEmpty (backend)) {
+                backend = backend.Substring (1);
 
-            if (remote_folder.EndsWith (".scp")) {
-                remote_folder = remote_folder.Substring (0, (remote_folder.Length - 4));
-                this.fetcher = new SparkleFetcherScp (server, remote_folder, tmp_folder);
-                backend = "Scp";
+                char [] letters = backend.ToCharArray ();
+                letters [0] = char.ToUpper (letters [0]);
+                backend = new string (letters);
 
             } else {
-                this.fetcher = new SparkleFetcherGit (server, remote_folder, tmp_folder);
                 backend = "Git";
+            }
+
+
+            try {
+                this.fetcher = (SparkleFetcherBase) Activator.CreateInstance (
+                        Type.GetType ("SparkleLib.SparkleFetcher" + backend + ", SparkleLib"),
+                            server,
+                            remote_folder,
+                            tmp_folder
+                );
+
+            } catch {
+                SparkleHelpers.DebugInfo ("Controller",
+                    "Failed to load \"" + backend + "\" backend for \"" + canonical_name + "\"");
+
+                if (FolderFetchError != null)
+                    FolderFetchError (Path.Combine (server, remote_folder));
+
+                return;
             }
 
             bool target_folder_exists = Directory.Exists (
@@ -1044,7 +1077,6 @@ namespace SparkleShare {
                 }
             };
 
-
             this.fetcher.Failed += delegate {
                 if (FolderFetchError != null)
                     FolderFetchError (this.fetcher.RemoteUrl);
@@ -1054,7 +1086,6 @@ namespace SparkleShare {
                 if (Directory.Exists (tmp_path))
                     Directory.Delete (tmp_path, true);
             };
-            
             
             this.fetcher.ProgressChanged += delegate (double percentage) {
                 if (FolderFetching != null)
