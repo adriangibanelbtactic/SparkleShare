@@ -25,8 +25,9 @@ namespace SparkleLib {
 
     public class SparkleRepoScp : SparkleRepoBase {
 
-        public SparkleRepoScp (string path, SparkleBackend backend) :
-            base (path) { }
+        public SparkleRepoScp (string path) : base (path)
+        {
+        }
 
 
         public override string Identifier {
