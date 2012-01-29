@@ -98,13 +98,8 @@ namespace SparkleLib {
                     change_set.Revision   = "test";
                     change_set.User.Name  = "test";
                     change_set.User.Email = "test";
-                    change_set.IsMagical  = is_merge_commit;
 	    change_sets.Add (change_set);
 	    return change_sets;
-
-            /*var l = new List<SparkleChangeSet> ();
-            l.Add (new SparkleChangeSet () { User.Name = "test", User.Email = "test", Revision = "test", Timestamp = DateTime.Now });
-            return l;*/
         }
 
 
