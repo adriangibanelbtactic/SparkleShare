@@ -108,6 +108,37 @@ namespace SparkleLib {
             base.CreateInitialChangeSet ();
         }
 
+        // Recursively gets a folder's size in bytes
+        public override double CalculateSize (DirectoryInfo parent)
+        {
+            if (!Directory.Exists (parent.ToString ()))
+                return 0;
+
+            double size = 0;
+
+            // Ignore the temporary 'rebase-apply' and '.tmp' directories. This prevents potential
+            // crashes when files are being queried whilst the files have already been deleted.
+            if (parent.Name.Equals ("rebase-apply") || // TODO: Check if rebase-apply is GIT-specific and remove it.
+                parent.Name.Equals (".tmp"))
+                return 0;
+
+            try {
+                foreach (FileInfo file in parent.GetFiles()) {
+                    if (!file.Exists)
+                        return 0;
+
+                    size += file.Length;
+                }
+
+                foreach (DirectoryInfo directory in parent.GetDirectories ())
+                    size += CalculateSize (directory);
+
+            } catch (Exception) {
+                return 0;
+            }
+
+            return size;
+        }
 
         public override bool UsesNotificationCenter
         {
