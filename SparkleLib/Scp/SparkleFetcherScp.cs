@@ -127,7 +127,7 @@ namespace SparkleLib {
         public SparkleScp (string path, string args) : base ()
         {
             EnableRaisingEvents              = true;
-            StartInfo.FileName               = SparkleBackend.DefaultBackend.Path;
+            StartInfo.FileName               = SparkleBackend.ScpBackend.Path;
             StartInfo.Arguments              = args;
             StartInfo.RedirectStandardOutput = true;
             StartInfo.UseShellExecute        = false;
