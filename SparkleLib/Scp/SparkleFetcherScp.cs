@@ -89,20 +89,7 @@ namespace SparkleLib {
         // the newly cloned repository
         private void InstallConfiguration ()
         {
-            string log_file_path = SparkleHelpers.CombineMore (base.target_folder, ".sparkleshare", "log");
-            File.Create (log_file_path);
-
-            string config_file_path = SparkleHelpers.CombineMore (base.target_folder, ".sparkleshare", "config");
-            File.Create (config_file_path);
-
-            string config = "";
-
-            // Write the config to the file
-            TextWriter writer = new StreamWriter (config_file_path);
-            writer.WriteLine (config);
-            writer.Close ();
-
-            SparkleHelpers.DebugInfo ("Config", "Added configuration to '" + config_file_path + "'");
+            SparkleHelpers.DebugInfo ("Config", "Scp backend simulated to have added a configuration file");
         }
 
 
