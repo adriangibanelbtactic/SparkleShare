@@ -92,9 +92,19 @@ namespace SparkleLib {
 
         public override List <SparkleChangeSet> GetChangeSets (int count)
         {
-            var l = new List<SparkleChangeSet> ();
-            l.Add (new SparkleChangeSet () { UserName = "test", UserEmail = "test", Revision = "test", Timestamp = DateTime.Now });
-            return l;
+
+	    List <SparkleChangeSet> change_sets = new List <SparkleChangeSet> ();
+	    SparkleChangeSet change_set = new SparkleChangeSet ();
+                    change_set.Revision   = "test";
+                    change_set.User.Name  = "test";
+                    change_set.User.Email = "test";
+                    change_set.IsMagical  = is_merge_commit;
+	    change_sets.Add (change_set);
+	    return change_sets;
+
+            /*var l = new List<SparkleChangeSet> ();
+            l.Add (new SparkleChangeSet () { User.Name = "test", User.Email = "test", Revision = "test", Timestamp = DateTime.Now });
+            return l;*/
         }
 
 
