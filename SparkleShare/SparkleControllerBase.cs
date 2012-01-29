@@ -583,18 +583,7 @@ namespace SparkleShare {
                     "Failed to load \"" + backend + "\" backend for \"" + folder_name + "\"");
 
                 return;
-<<<<<<< HEAD
-            SparkleRepoBase repo;
-
-	    if (backend == "Scp") {
-		repo = new SparkleRepoScp (folder_path, SparkleBackend.ScpBackend);
-	    } else {
-		repo = new SparkleRepoGit (folder_path, SparkleBackend.DefaultBackend);
-	    }
-=======
             }
-
->>>>>>> 5d5712bcd08ecffb8ba1886167944fe4556c6098
 
             repo.NewChangeSet += delegate (SparkleChangeSet change_set) {
 
