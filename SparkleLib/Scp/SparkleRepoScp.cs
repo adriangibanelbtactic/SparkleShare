@@ -44,6 +44,12 @@ namespace SparkleLib {
             }
         }
 
+        public override double Size {
+            get {
+                return 0; // TODO: Implement some way of calculating repo size
+            }
+        }
+
         public override string CurrentRevision {
             get {
                 return "";
