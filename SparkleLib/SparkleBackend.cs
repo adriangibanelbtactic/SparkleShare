@@ -24,6 +24,7 @@ namespace SparkleLib {
     public class SparkleBackend {
 
         public static SparkleBackend DefaultBackend = new SparkleBackendGit ();
+        public static SparkleBackend ScpBackend = new SparkleBackendScp ();
 
         public string Name;
         public string Path;

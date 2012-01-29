@@ -576,8 +576,13 @@ namespace SparkleShare {
 
             if (backend == null)
                 return;
-            
-            SparkleRepoBase repo = new SparkleRepoGit (folder_path, SparkleBackend.DefaultBackend);
+            SparkleRepoBase repo;
+
+	    if (backend == "Scp") {
+		repo = new SparkleRepoScp (folder_path, SparkleBackend.ScpBackend);
+	    } else {
+		repo = new SparkleRepoGit (folder_path, SparkleBackend.DefaultBackend);
+	    }
 
             repo.NewChangeSet += delegate (SparkleChangeSet change_set) {
 
