@@ -31,7 +31,7 @@ namespace SparkleLib {
 
         public override bool Fetch ()
         {
-            SparkleScp scp = new SparkleScp (SparklePaths.SparkleTmpPath,
+            SparkleScp scp = new SparkleScp (SparkleConfig.DefaultConfig.TmpPath,
                 "-r \"" + base.remote_url + "\" " + "\"" + base.target_folder + "\"");
 
             scp.Start ();
@@ -48,6 +48,11 @@ namespace SparkleLib {
             }
         }
 
+        public override string [] Warnings {
+            get {
+		return null; // TODO: Check if we should warn about anything
+            }
+        }
 
         // Install the user's name and email and some config into
         // the newly cloned repository
