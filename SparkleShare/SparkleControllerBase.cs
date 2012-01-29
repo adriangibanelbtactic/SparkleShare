@@ -1023,8 +1023,6 @@ namespace SparkleShare {
                     SparkleConfig.DefaultConfig.FoldersPath, target_folder_name);
 
                 try {
-		    SparkleHelpers.DebugInfo ("DEBUG1", "tmp_folder: " + 
-		    tmp_folder + "\n" + "target_folder_path: " + target_folder_path);
                     Directory.Move (tmp_folder, target_folder_path);
 
                     SparkleConfig.DefaultConfig.AddFolder (target_folder_name, this.fetcher.RemoteUrl, backend);
