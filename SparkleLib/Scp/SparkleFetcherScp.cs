@@ -52,10 +52,11 @@ namespace SparkleLib {
 	    }
 
             base.target_folder = target_folder;
+	    base.remote_url = uri.ToString();
 	    string tmpPort = uri.Port.ToString();
-            base.remote_url    = uri.UserInfo + "@" + uri.Host + ":" + uri.AbsolutePath;
+            string tmpScpRemoteUrl = uri.UserInfo + "@" + uri.Host + ":" + uri.AbsolutePath;
 	    this.scp = new SparkleScp(SparkleConfig.DefaultConfig.TmpPath,"--version")
-	    { port = tmpPort };
+	    { port = tmpPort, scp_remote_url = tmpScpRemoteUrl };
 
 	}
 
@@ -63,7 +64,7 @@ namespace SparkleLib {
         public override bool Fetch ()
         {
             SparkleScp scp = new SparkleScp (SparkleConfig.DefaultConfig.TmpPath,
-                "-P " + this.scp.port + " " + "-r \"" + base.remote_url + "\" " + "\"" + base.target_folder + "\"");
+                "-P " + this.scp.port + " " + "-r \"" + this.scp.scp_remote_url + "\" " + "\"" + base.target_folder + "\"");
 
             scp.Start ();
             scp.WaitForExit ();

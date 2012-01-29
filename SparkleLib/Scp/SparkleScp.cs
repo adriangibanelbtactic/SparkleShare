@@ -23,6 +23,7 @@ namespace SparkleLib {
     public class SparkleScp : Process {
 
 	public string port = "22";
+	public string scp_remote_url = "";
 
         public SparkleScp (string path, string args) : base ()
         {
