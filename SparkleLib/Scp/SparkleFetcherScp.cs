@@ -96,47 +96,7 @@ namespace SparkleLib {
         // Add a exclude file to the repo
         private void InstallExcludeRules ()
         {
-            string exlude_rules_file_path = SparkleHelpers.CombineMore (base.target_folder, ".sparkleshare", "exclude");
-            File.Create (exlude_rules_file_path);
-
-            TextWriter writer = new StreamWriter (exlude_rules_file_path);
-
-                // gedit and emacs
-                writer.WriteLine ("*~");
-
-                // vi(m)
-                writer.WriteLine (".*.sw[a-z]");
-                writer.WriteLine ("*.un~");
-                writer.WriteLine ("*.swp");
-                writer.WriteLine ("*.swo");
-                
-                // KDE
-                writer.WriteLine (".directory");
-    
-                // Mac OSX
-                writer.WriteLine (".DS_Store");
-                writer.WriteLine ("Icon?");
-                writer.WriteLine ("._*");
-                writer.WriteLine (".Spotlight-V100");
-                writer.WriteLine (".Trashes");
-
-                // Mac OSX
-                writer.WriteLine ("*(Autosaved).graffle");
-            
-                // Windows
-                writer.WriteLine ("Thumbs.db");
-                writer.WriteLine ("Desktop.ini");
-
-                // CVS
-                writer.WriteLine ("*/CVS/*");
-                writer.WriteLine (".cvsignore");
-                writer.WriteLine ("*/.cvsignore");
-                
-                // Subversion
-                writer.WriteLine ("/.svn/*");
-                writer.WriteLine ("*/.svn/*");
-
-            writer.Close ();
+	  // No need to install Exclude Rules for the moment
         }
     }
 
