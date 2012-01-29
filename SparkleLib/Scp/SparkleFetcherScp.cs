@@ -26,7 +26,40 @@ namespace SparkleLib {
     public class SparkleFetcherScp : SparkleFetcherBase {
 
         public SparkleFetcherScp (string server, string remote_folder, string target_folder) :
-            base (server, remote_folder, target_folder) { }
+            base (server, remote_folder, target_folder)
+	{
+            if (server.EndsWith ("/"))
+                server = server.Substring (0, server.Length - 1);
+
+            if (!remote_folder.StartsWith ("/"))
+                remote_folder = "/" + remote_folder;
+
+            Uri uri;
+
+            try {
+                uri = new Uri (server + remote_folder);
+
+            } catch (UriFormatException) {
+                uri = new Uri ("ssh://" + server + remote_folder);
+            }
+
+
+            if (!uri.Scheme.Equals ("ssh")) {
+                uri = new Uri ("ssh://" + uri);
+            }
+
+	    if (string.IsNullOrEmpty (uri.UserInfo)) {
+		uri = new Uri (uri.Scheme + "://git@" + uri.Host + ":" + uri.Port + uri.AbsolutePath);
+		uri = new Uri (uri.ToString ().Replace (":-1", ""));
+	    }
+
+            base.target_folder = target_folder;
+            base.remote_url    = uri.ToString ();
+	    scp = new SparkleScp()
+	    { port = getport(defaultconfig.urlfor (folder_name)) };
+	    scp.Start();
+
+	}
 
 
         public override bool Fetch ()
