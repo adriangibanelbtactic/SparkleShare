@@ -46,20 +46,16 @@ namespace SparkleLib {
                 uri = new Uri ("ssh://" + server + remote_folder);
             }
 
-
-            if (!uri.Scheme.Equals ("ssh")) {
-                uri = new Uri ("ssh://" + uri);
-            }
-
 	    if (string.IsNullOrEmpty (uri.UserInfo)) {
 		uri = new Uri (uri.Scheme + "://git@" + uri.Host + ":" + uri.Port + uri.AbsolutePath);
 		uri = new Uri (uri.ToString ().Replace (":-1", ""));
 	    }
 
             base.target_folder = target_folder;
-            base.remote_url    = uri.ToString ();
+	    string tmpPort = uri.Port.ToString();
+            base.remote_url    = uri.UserInfo + "@" + uri.Host + ":" + uri.AbsolutePath;
 	    this.scp = new SparkleScp(SparkleConfig.DefaultConfig.TmpPath,"--version")
-	    { port = uri.Port.ToString() };
+	    { port = tmpPort };
 
 	}
 
