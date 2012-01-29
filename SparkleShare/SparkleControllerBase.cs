@@ -984,8 +984,9 @@ namespace SparkleShare {
 
             string backend = null;
 
-	    if (remote_folder.EndsWith (".scp")) {
-                fetcher = new SparkleFetcherScp (server, canonical_name, tmp_folder);
+            if (remote_folder.EndsWith (".scp")) {
+                remote_folder = remote_folder.Substring (0, (remote_folder.Length - 4));
+                this.fetcher = new SparkleFetcherScp (server, remote_folder, tmp_folder);
                 backend = "Scp";
 
             } else {
