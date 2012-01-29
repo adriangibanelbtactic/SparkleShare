@@ -984,20 +984,14 @@ namespace SparkleShare {
 
             string backend = null;
 
-/*            if (remote_folder.EndsWith (".hg")) {
-                remote_folder = remote_folder.Substring (0, (remote_folder.Length - 3));
-                fetcher       = new SparkleFetcherHg (server, remote_folder, tmp_folder);
-                backend       = "Hg";
-
-            } else if (remote_folder.EndsWith (".scp")) {
-                remote_folder = remote_folder.Substring (0, (remote_folder.Length - 4));
-                fetcher = new SparkleFetcherScp (server, remote_folder, tmp_folder);
+	    if (remote_folder.EndsWith (".scp")) {
+                fetcher = new SparkleFetcherScp (server, canonical_name, tmp_folder);
                 backend = "Scp";
 
-            } else {*/
+            } else {
                 this.fetcher = new SparkleFetcherGit (server, remote_folder, tmp_folder);
                 backend = "Git";
-            //}
+            }
 
             bool target_folder_exists = Directory.Exists (
                 Path.Combine (SparkleConfig.DefaultConfig.FoldersPath, canonical_name));
