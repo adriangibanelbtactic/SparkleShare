@@ -122,23 +122,4 @@ namespace SparkleLib {
         }
     }
 
-    public class SparkleScp : Process {
-
-        public SparkleScp (string path, string args) : base ()
-        {
-            EnableRaisingEvents              = true;
-            StartInfo.FileName               = SparkleBackend.ScpBackend.Path;
-            StartInfo.Arguments              = args;
-            StartInfo.RedirectStandardOutput = true;
-            StartInfo.UseShellExecute        = false;
-            StartInfo.WorkingDirectory       = path;
-        }
-
-
-        new public void Start ()
-        {
-            SparkleHelpers.DebugInfo ("Cmd", StartInfo.FileName + " " + StartInfo.Arguments);
-            base.Start ();
-        }
-    }
 }
