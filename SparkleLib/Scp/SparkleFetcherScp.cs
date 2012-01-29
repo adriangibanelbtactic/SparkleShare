@@ -55,9 +55,9 @@ namespace SparkleLib {
 
             base.target_folder = target_folder;
             base.remote_url    = uri.ToString ();
-	    scp = new SparkleScp()
-	    { port = getport(defaultconfig.urlfor (folder_name)) };
-	    scp.Start();
+	    Uri uri2 = new Uri (SparkleConfig.DefaultConfig.GetUrlForFolder (base.remote_url));
+	    SparkleScp scp = new SparkleScp("","")
+	    { port = uri2.Port };
 
 	}
 

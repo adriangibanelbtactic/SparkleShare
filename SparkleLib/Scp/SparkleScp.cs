@@ -22,7 +22,7 @@ namespace SparkleLib {
 
     public class SparkleScp : Process {
 
-	public string port = null;
+	public int port = 22;
 
         public SparkleScp (string path, string args) : base ()
         {
