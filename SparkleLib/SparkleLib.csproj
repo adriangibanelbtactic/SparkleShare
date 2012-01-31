@@ -36,9 +36,11 @@
     <Compile Include="SparkleRepoBase.cs" />
     <Compile Include="Git/SparkleRepoGit.cs" />
     <Compile Include="Hg/SparkleRepoHg.cs" />
+    <Compile Include="Rsync/SparkleRepoRsync.cs" />
     <Compile Include="SparkleFetcherBase.cs" />
     <Compile Include="Git/SparkleFetcherGit.cs" />
     <Compile Include="Hg/SparkleFetcherHg.cs" />
+    <Compile Include="Rsync/SparkleFetcherRsync.cs" />
     <Compile Include="Defines.cs" />
     <Compile Include="SparkleHelpers.cs" />
     <Compile Include="SparklePaths.cs" />
