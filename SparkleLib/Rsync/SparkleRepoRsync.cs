@@ -53,7 +53,7 @@ namespace SparkleLib {
 
         public override double HistorySize {
             get {
-                return 0; // TODO: Implement some way of calculating history repo size. Not sure it makes sense in scp.
+                return 0; // TODO: Implement some way of calculating history repo size. Not sure it makes sense in rsync.
             }
         }
 
