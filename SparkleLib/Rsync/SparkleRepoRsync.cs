@@ -66,7 +66,7 @@ namespace SparkleLib {
 
         public override bool CheckForRemoteChanges ()
         {
-			remote_revision = RemoteChanges ();
+			string remote_revision = RemoteChanges ();
 			
 			//counting lines won't really work since rsync doesn't know if the changes were made locally or on the server...
             if (CountLinesInString(remote_revision) > 4) {
@@ -85,7 +85,7 @@ namespace SparkleLib {
         {
 			//delete can cause problems -- see comments in the conflict code
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-                "--archive --itemize --compress --partial --delete --delete-during --exclude-from=.sparkleshare --log-file=.rsynclog . " + "\"" + base.remote_url + "\"");
+                "--archive --itemize --compress --partial --delete --delete-during --exclude-from=.sparkleshare --log-file=.rsynclog . " + "\"" + Url + "\"");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -100,7 +100,7 @@ namespace SparkleLib {
         public override bool SyncDown ()
         {
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-                "--archive --itemize --compress --partial --delete --delete-during --exclude-from=.sparkleshare --log-file=.rsynclog \"" + base.remote_url + "\" " + ".");
+                "--archive --itemize --compress --partial --delete --delete-during --exclude-from=.sparkleshare --log-file=.rsynclog \"" + Url + "\" " + ".");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -115,7 +115,7 @@ namespace SparkleLib {
         public override bool AnyDifferences {
             get {
 
-				remote_revision = LocalChanges ();
+				string remote_revision = LocalChanges ();
 
 	            if (CountLinesInString(remote_revision) > 4) 
 	                return true;
@@ -166,7 +166,7 @@ namespace SparkleLib {
 			
 			//local changes
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-            	"--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + base.remote_url + "\"");
+            	"--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + Url + "\"");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -174,8 +174,8 @@ namespace SparkleLib {
             string local_changes = rsync.StandardOutput.ReadToEnd ().TrimEnd ();
 			
 			//remote changes
-			SparkleRsync rsync = new SparkleRsync (LocalPath,
-                "--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare \"" + base.remote_url + "\" " + ".");
+			rsync = new SparkleRsync (LocalPath,
+                "--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare \"" + Url + "\" " + ".");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -253,7 +253,7 @@ namespace SparkleLib {
 		private string RemoteChanges ()
 		{
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-                "--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare \"" + base.remote_url + "\" " + ".");
+                "--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare \"" + Url + "\" " + ".");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -266,7 +266,7 @@ namespace SparkleLib {
 		private string LocalChanges ()
 		{
 		  	SparkleRsync rsync = new SparkleRsync (LocalPath,
-            	"--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + base.remote_url + "\"");
+            	"--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + Url + "\"");
 
             rsync.Start ();
             rsync.WaitForExit ();
