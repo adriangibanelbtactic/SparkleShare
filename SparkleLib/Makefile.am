@@ -7,6 +7,9 @@ SOURCES =  \
 	Git/SparkleFetcherGit.cs \
 	Git/SparkleGit.cs \
 	Git/SparkleRepoGit.cs \
+	Scp/SparkleFetcherRsync.cs \
+	Scp/SparkleRsync.cs \
+	Scp/SparkleRepoRsync.cs \
 	SparkleBackend.cs \
 	SparkleChangeSet.cs \
 	SparkleConfig.cs \
