@@ -84,8 +84,10 @@ namespace SparkleLib {
         public override bool SyncUp ()
         {
 			//delete can cause problems -- see comments in the conflict code
+			// TODO: Check if there is an equivalent for --itemize which has been
+			// removed because of not being detected
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-                "--archive --itemize --compress --partial --delete --delete-during --exclude-from=.sparkleshare --log-file=.rsynclog . " + "\"" + Url + "\"");
+                "--archive --compress --partial --delete --delete-during --exclude-from=.sparkleshare --log-file=.rsynclog . " + "\"" + Url + "\"");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -99,8 +101,10 @@ namespace SparkleLib {
 
         public override bool SyncDown ()
         {
+			// TODO: Check if there is an equivalent for --itemize which has been
+			// removed because of not being detected
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-                "--archive --itemize --compress --partial --delete --delete-during --exclude-from=.sparkleshare --log-file=.rsynclog \"" + Url + "\" " + ".");
+                "--archive --compress --partial --delete --delete-during --exclude-from=.sparkleshare --log-file=.rsynclog \"" + Url + "\" " + ".");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -165,8 +169,10 @@ namespace SparkleLib {
 			//some conflict resolution code in python: http://sujitpal.blogspot.com/2009/12/unison-replacement-with-rsync.htm	
 			
 			//local changes
+			// TODO: Check if there is an equivalent for --itemize which has been
+			// removed because of not being detected
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-            	"--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + Url + "\"");
+            	"--archive --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + Url + "\"");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -174,8 +180,10 @@ namespace SparkleLib {
             string local_changes = rsync.StandardOutput.ReadToEnd ().TrimEnd ();
 			
 			//remote changes
+			// TODO: Check if there is an equivalent for --itemize which has been
+			// removed because of not being detected
 			rsync = new SparkleRsync (LocalPath,
-                "--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare \"" + Url + "\" " + ".");
+                "--archive --compress --dry-run --partial --delete --exclude-from=.sparkleshare \"" + Url + "\" " + ".");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -252,8 +260,10 @@ namespace SparkleLib {
         }
 		private string RemoteChanges ()
 		{
+			// TODO: Check if there is an equivalent for --itemize which has been
+			// removed because of not being detected
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-                "--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare \"" + Url + "\" " + ".");
+                "--archive --compress --dry-run --partial --delete --exclude-from=.sparkleshare \"" + Url + "\" " + ".");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -265,8 +275,10 @@ namespace SparkleLib {
 		
 		private string LocalChanges ()
 		{
+			// TODO: Check if there is an equivalent for --itemize which has been
+			// removed because of not being detected
 		  	SparkleRsync rsync = new SparkleRsync (LocalPath,
-            	"--archive --itemize --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + Url + "\"");
+            	"--archive --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + Url + "\"");
 
             rsync.Start ();
             rsync.WaitForExit ();
