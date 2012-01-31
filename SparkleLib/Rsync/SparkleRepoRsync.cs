@@ -172,7 +172,7 @@ namespace SparkleLib {
 			// TODO: Check if there is an equivalent for --itemize which has been
 			// removed because of not being detected
 			SparkleRsync rsync = new SparkleRsync (LocalPath,
-            	"--archive --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + Url + "\"");
+            	"--archive --compress --dry-run --partial --delete --exclude-from=.sparkleshare " + "\"" + Url + "\"");
 
             rsync.Start ();
             rsync.WaitForExit ();
@@ -278,7 +278,7 @@ namespace SparkleLib {
 			// TODO: Check if there is an equivalent for --itemize which has been
 			// removed because of not being detected
 		  	SparkleRsync rsync = new SparkleRsync (LocalPath,
-            	"--archive --compress --dry-run --partial --delete --exclude-from=.sparkleshare ." + "\"" + Url + "\"");
+            	"--archive --compress --dry-run --partial --delete --exclude-from=.sparkleshare " + "\"" + Url + "\"");
 
             rsync.Start ();
             rsync.WaitForExit ();
