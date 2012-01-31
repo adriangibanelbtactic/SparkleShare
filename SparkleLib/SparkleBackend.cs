@@ -131,4 +131,15 @@ namespace SparkleLib {
         public SparkleBackendScp () : base (name, paths) { }
 
     }
+
+    public class SparkleBackendRsync : SparkleBackend {
+
+        private static string name     = "Rsync";
+        private static string [] paths = new string [] {
+            "/usr/bin/rsync"
+        };
+
+        public SparkleBackendRsync () : base (name, paths) { }
+
+    }
 }
