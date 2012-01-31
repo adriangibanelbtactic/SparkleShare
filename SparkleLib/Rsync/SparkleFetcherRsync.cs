@@ -37,6 +37,8 @@ namespace SparkleLib {
             if (!remote_folder.StartsWith ("/"))
                 remote_folder = "/" + remote_folder;
 
+	    remote_folder = remote_folder.Substring (0, (remote_folder.Length - 6));
+
             Uri uri;
 
             try {
